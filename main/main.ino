@@ -4,7 +4,7 @@ const int trigPin_1 = 4;  //__D2
 const int echoPin_2 = 0;  //__D3
 const int trigPin_2 = 2;  //__D4
 
-const int thres = 50;
+const int thres = 50; //in centimeter
 
 int d1, d2;
 int enter = 0;
@@ -19,7 +19,7 @@ void setup() {
   Serial.begin(9600);
 }
 
-float get_distance(int trigPin, int echoPin){
+float get_distance(int trigPin, int echoPin){ //gets the distance from the sensor
   long duration;
   int distance;
   digitalWrite(trigPin, LOW);
@@ -35,13 +35,13 @@ float get_distance(int trigPin, int echoPin){
   return(distance);
 }
 
-bool await_removal(int trigPin, int echoPin){
+bool await_removal(int trigPin, int echoPin){ //waits till the objects moves from the sensor
   while(get_distance(trigPin, echoPin) < thres){
         delay(10);
      }
   return true;
 }
-bool is_triggered(int d){
+bool is_triggered(int d){ //checks if the distance is lesser than that of the threshold
   if(d<thres){
     return true;
   }
@@ -49,7 +49,7 @@ bool is_triggered(int d){
     return false;
   }
 }
-void entry(int d1, int d2){
+void entry(int d1, int d2){ //function for the evaluation of the count
   if(is_triggered(d1)){
     while(!is_triggered(get_distance(trigPin_2, echoPin_2))){
       delay(10);
