@@ -73,10 +73,10 @@ void loop() {
   d1=get_distance(trigPin_1, echoPin_1);
   d2=get_distance(trigPin_2, echoPin_2);
   entry(d1, d2);
-//  Serial.print("Distance 1 is");
-//  Serial.println(d1);
-//  Serial.print("Distance 2 is");
-//  Serial.println(d2);
+  Serial.print("Distance 1 is");
+  Serial.println(d1);
+  Serial.print("Distance 2 is");
+  Serial.println(d2);
   Serial.print("Count is");
   Serial.println(count);
   delay(200);
