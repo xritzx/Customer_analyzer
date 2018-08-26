@@ -24,7 +24,7 @@ function readData(year,month,date){
     var queryResponse = db.ref(query);
 
     queryResponse.on("value",(data)=>{
-        $("#just").html(JSON.stringify(data.val()));
+        // $("#just").html(JSON.stringify(data.val()));
         console.log(data.val() );
         
     }, ()=>{
@@ -47,5 +47,18 @@ function updateCount(count){
             obj
     );
 }
-updateCount(39);
-readData();
+function getData(route) {
+    var req_param=String(route);
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var value = String(this.responseText);
+        $("#just").html(value);
+      }
+    };
+    xhttp.open("GET", req_param, true);
+    xhttp.send();
+  }
+
+// updateCount(39);
+// readData();

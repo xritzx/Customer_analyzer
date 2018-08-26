@@ -1,3 +1,4 @@
+const char landingPage[] PROGMEM = R"=====(
 <!DOCTYPE html>
 <html>
 <head>
@@ -96,7 +97,9 @@
     // updateCount(39);
     // readData();
 
-
+    setInterval(function() {
+        getData("count");
+        }, 2000);
 
 
 
@@ -104,3 +107,5 @@
     </script>
 </body>
 </html>
+
+    )=====";
