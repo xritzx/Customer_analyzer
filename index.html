@@ -9,9 +9,20 @@
 </head>
 <body>
     
-    <h4 id="just">Khali</h4>
-
-
+    <ul class="navbar">
+        <li><a href="#day" onclick=heel("d")>Day</a></li>
+        <li><a href="#week" onclick=heel("w")>Week</a></li>
+        <li><a href="#month" onclick=heel("m")>Month</a></li>
+        <li><a href="#year" onclick=heel("y")>Year</a></li>
+    </ul>
+    
+    <div class="stats">
+          <p id="just"></p>
+    </div>
+      
+    
+    
+    <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase-app.js"></script>
@@ -36,6 +47,39 @@
 
     var db = firebase.database();
 
+    function display(obj, year, month, date){
+        var days=[];
+        var count=[];
+        var months = [];
+        var dates = [];
+        for(var key in obj){
+            console.log(key);
+            if(!date){
+                var obj1 = obj[key];
+                for(var key1 in obj1){
+                    console.log(key1)
+                    if(!month){
+                        var obj2 = obj1[key1];
+                        for(var key2 in obj2){
+                            console.log(key2);
+                            days.push(key2);
+                            count.push(obj2[key2]);
+                        }
+                    }
+                    else{
+                        days.push(key1);
+                        count.push(obj1[key1]);
+                    }
+                }
+            }
+            else{
+                days.push(key);
+                count.push(obj[key]);
+            }
+
+        }
+        console.log(days,count);    
+    }
     function readData(year,month,date){
         // To read data Enter the parameter as eg. 2018,07,15 where each
         // argument is optional and is omitted to grab the parental JSON.
@@ -57,9 +101,7 @@
         var queryResponse = db.ref(query);
 
         queryResponse.on("value",(data)=>{
-            // $("#just").html(JSON.stringify(data.val()));
-            console.log(data.val() );
-            
+            display(data.val(),year,month,date);
         }, ()=>{
             console.log("Failed Reading , DATA missing");
         });
@@ -76,12 +118,10 @@
         db.ref('counts/' +
         String(date.getFullYear()) + '/' +
             String(MONTH[date.getMonth()]) + '/' +
-                String(date.getDate())).set(
-                obj
-        );
+                String(date.getDate())).set(obj);
     }
     function getData(route) {
-        var req_param=String(route);
+        var req_param = String(route);
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -95,7 +135,15 @@
 
     // updateCount(39);
     // readData();
-
+    function heel(param){
+        var date = new Date();
+        if(param == 'y'){
+            readData(date.getFullYear());
+        }
+        else if(param == 'm'){
+            readData(date.getFullYear(), date.getMonth());
+        }
+    }
 
 
 
